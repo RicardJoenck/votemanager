@@ -1,7 +1,7 @@
 package com.joenck.votemanager.exceptions;
 
-public class NoDataFoundException extends Exception {
-    public NoDataFoundException(String message) {
-        super(message);
+public class NoDataFoundException extends RuntimeException {
+    public NoDataFoundException(Long id, String className) {
+        super(String.format("Nenhum Dado achado com id %d para %s",id,className));
     }
 }

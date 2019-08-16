@@ -25,6 +25,8 @@ public class Voto {
     @NotNull
     private Pauta pauta;
 
+    public Voto() {}
+
     public Voto(Pauta pauta, Long cpf, Decisao decisao) {
         this.pauta = pauta;
         this.cpf = cpf;
@@ -51,5 +53,25 @@ public class Voto {
                 ", decisao=" + decisao +
                 ", pauta=" + pauta.getDescricao() +
                 '}';
+    }
+
+    public enum Decisao {
+        SIM("Sim"),
+        NÃO("Não");
+
+        private String valor;
+
+        Decisao(String valor) {
+            this.valor = valor;
+        }
+
+        public static Decisao get(String valor) {
+            for(Decisao decisao : Decisao.values()) {
+                if (decisao.valor.equalsIgnoreCase(valor)) {
+                    return decisao;
+                }
+            }
+            throw new IllegalArgumentException("Decisão inválida. Escolha entre Sim e Não");
+        }
     }
 }

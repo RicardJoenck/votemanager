@@ -37,7 +37,7 @@ public class PautaRepositoryTest {
 
     @Test
     public void quandoFindById_entaoRetornePauta() throws NoDataFoundException {
-        Pauta pauta = pautaRepository.findById(1L).orElseThrow(() -> new NoDataFoundException("NENHUMA_PAUTA_FOI_ENCONTRADA"));
+        Pauta pauta = pautaRepository.findById(1L).orElseThrow(() -> new NoDataFoundException(1L,Pauta.class.getSimpleName()));
         System.out.println(pauta.toString());
         assertThat(pauta.getDescricao()).isEqualTo("Votação teste 1");
     }
@@ -50,9 +50,11 @@ public class PautaRepositoryTest {
 
     @Test
     public void quandoFindByIdInexistente_entaoRetorneNoDataFoundExceptionException() {
+        Long id = 999L;
+        String className = Pauta.class.getSimpleName();
         assertThatExceptionOfType(NoDataFoundException.class).isThrownBy(() -> {
-            Pauta pauta = pautaRepository.findById(999L).orElseThrow(() -> new NoDataFoundException("NENHUMA_PAUTA_FOI_ENCONTRADA"));
-        }).withMessageContaining("NENHUMA_PAUTA_FOI_ENCONTRADA");
+            Pauta pauta = pautaRepository.findById(999L).orElseThrow(() -> new NoDataFoundException(id,className));
+        }).withMessageContaining(String.format("Nenhum Dado achado com id %d para %s",id,className));
     }
 
     @Test

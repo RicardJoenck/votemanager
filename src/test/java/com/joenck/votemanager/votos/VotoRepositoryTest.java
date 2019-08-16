@@ -29,17 +29,17 @@ public class VotoRepositoryTest {
     @Test
     public void quandoFindById_entaoRetorneVoto() throws NoDataFoundException {
         Pauta pauta = new Pauta("Votação test");
-        Voto voto = new Voto(pauta,86935275091L,Decisao.NÃO);
+        Voto voto = new Voto(pauta,86935275091L, Voto.Decisao.NÃO);
         entityManager.persist(voto);
-        Voto resultado = votoRepository.findById(1L).orElseThrow(() -> new NoDataFoundException("NENHUMA_PAUTA_FOI_ENCONTRADA"));
+        Voto resultado = votoRepository.findById(1L).orElseThrow(() -> new NoDataFoundException(1L,Voto.class.getSimpleName()));
         assertThat(resultado.getPauta().getDescricao()).isEqualTo("Votação test");
     }
 
     @Test
     public void quandoFindAll_entaoRetorneListaVotos() {
         Pauta pauta = new Pauta("Votação test");
-        Voto voto = new Voto(pauta,86935275091L,Decisao.NÃO);
-        Voto voto2 = new Voto(pauta,86935275092L,Decisao.NÃO);
+        Voto voto = new Voto(pauta,86935275091L, Voto.Decisao.NÃO);
+        Voto voto2 = new Voto(pauta,86935275092L, Voto.Decisao.NÃO);
         entityManager.persist(voto);
         entityManager.persist(voto2);
         List<Voto> votos = votoRepository.findAll();
@@ -49,7 +49,7 @@ public class VotoRepositoryTest {
     @Test
     public void quandoInserirPautaNula_entaoRetorneConstraintViolationException() {
         assertThatExceptionOfType(ConstraintViolationException.class).isThrownBy(() -> {
-            Voto votoInvalida = new Voto(null,86935275092L,Decisao.NÃO);
+            Voto votoInvalida = new Voto(null,86935275092L, Voto.Decisao.NÃO);
             entityManager.persist(votoInvalida);
             entityManager.flush();
         }).withMessageContaining("'must not be null'");
@@ -59,7 +59,7 @@ public class VotoRepositoryTest {
     public void quandoInserirCpfNulo_entaoRetorneConstraintViolationException() {
         assertThatExceptionOfType(ConstraintViolationException.class).isThrownBy(() -> {
             Pauta pauta = new Pauta("Votação test");
-            Voto votoInvalida = new Voto(pauta,null,Decisao.NÃO);
+            Voto votoInvalida = new Voto(pauta,null, Voto.Decisao.NÃO);
             entityManager.persist(votoInvalida);
             entityManager.flush();
         }).withMessageContaining("'must not be null'");

@@ -26,6 +26,8 @@ public class Pauta {
     @OneToMany(mappedBy = "pauta",fetch = FetchType.EAGER)
     private List<Voto> votos;
 
+    public Pauta() {}
+
     public Pauta(String descricao) {
         this.descricao = descricao;
     }
