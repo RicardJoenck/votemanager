@@ -14,8 +14,8 @@ public class Pauta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PautaId")
-    private Long pautaId;
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
     @Size(max = 255)
@@ -23,15 +23,15 @@ public class Pauta {
 
     private ZonedDateTime limiteVotacao;
 
-    @OneToMany(mappedBy = "pauta")
+    @OneToMany(mappedBy = "pauta",fetch = FetchType.EAGER)
     private List<Voto> votos;
 
     public Pauta(String descricao) {
         this.descricao = descricao;
     }
 
-    public Long getPautaId() {
-        return pautaId;
+    public Long getId() {
+        return id;
     }
 
     public String getDescricao() {
@@ -53,7 +53,7 @@ public class Pauta {
     @Override
     public String toString() {
         return "Pauta{" +
-                "pautaId=" + pautaId +
+                "id=" + id +
                 ", descricao='" + descricao + '\'' +
                 ", limiteVotacao=" + limiteVotacao +
                 ", votos=" + votos +

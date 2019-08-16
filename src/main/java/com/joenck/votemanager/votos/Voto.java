@@ -3,63 +3,53 @@ package com.joenck.votemanager.votos;
 import com.joenck.votemanager.pautas.Pauta;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.Objects;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Voto {
 
-    @EmbeddedId
-    private VotoId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Size(max = 3)
+    @NotNull
     private Decisao decisao;
 
-    @MapsId("votoId")
-    @JoinColumn(name="PautaId", referencedColumnName="PautaId")
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Pauta pauta;
-
-    public Voto(VotoId id, Decisao decisao) {
-        this.id = id;
-        this.decisao = decisao;
-    }
-}
-
-@Embeddable
-class VotoId implements Serializable {
-    @Column(name = "PautaId")
-    private Long pautaId;
-
-    @Column(name = "CPF")
+    @NotNull
     private Long cpf;
 
-    public VotoId(Long pautaId, Long cpf) {
-        this.pautaId = pautaId;
+    @JoinColumn(name="pauta_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @NotNull
+    private Pauta pauta;
+
+    public Voto(Pauta pauta, Long cpf, Decisao decisao) {
+        this.pauta = pauta;
         this.cpf = cpf;
+        this.decisao = decisao;
     }
 
-    public Long getPautaId() {
-        return pautaId;
+    public Decisao getDecisao() {
+        return decisao;
     }
 
-    public Long getCPF() {
+    public Pauta getPauta() {
+        return pauta;
+    }
+
+    public Long getCpf() {
         return cpf;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof VotoId)) return false;
-        VotoId that = (VotoId) o;
-        return Objects.equals(this.getCPF(), that.getCPF()) &&
-                Objects.equals(this.getPautaId(), that.getPautaId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getPautaId(), getCPF());
+    public String toString() {
+        return "Voto{" +
+                "id=" + id +
+                ", cpf=" + cpf +
+                ", decisao=" + decisao +
+                ", pauta=" + pauta.getDescricao() +
+                '}';
     }
 }
