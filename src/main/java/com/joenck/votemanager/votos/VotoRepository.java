@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface VotoRepository extends JpaRepository<Voto,Long> {
     List<Voto> findAllByPauta(Pauta pauta);
-    List<Voto> findAllByDecisao(Decisao decisao);
+    boolean existsByCpfAndPauta(long cpf, Pauta pauta);
 }
