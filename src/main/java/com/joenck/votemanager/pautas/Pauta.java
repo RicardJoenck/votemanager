@@ -2,6 +2,7 @@ package com.joenck.votemanager.pautas;
 
 
 import com.joenck.votemanager.votos.Voto;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class Pauta {
 
     @NotNull
     @Size(max = 255)
+    @Length(min = 1)
     private String descricao;
 
     private ZonedDateTime limiteVotacao;

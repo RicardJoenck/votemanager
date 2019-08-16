@@ -17,7 +17,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ConstraintViolationException.class})
     public ErrorResponse handleConstraintViolationException(ConstraintViolationException e) {
-        String mensagem = e.getMessage().contains("must not be null") ?  "Descrição não pode ser nula" : "Descrição não pode ultrapassar de 255 caracteres";
+        String mensagem;
+        if(e.getMessage().contains("length must be")) {
+            mensagem = "Descrição não pode ser vazia";
+        } else if (e.getMessage().contains("must not be null")) {
+            mensagem = "Descrição não pode ser nula";
+        } else {
+            mensagem = "Descrição não pode ultrapassar de 255 caracteres";
+        }
         return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), mensagem);
     }
 
@@ -25,6 +32,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         String mensagem = "Formato de parametros não reconhecido";
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), mensagem);
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({DateTimeParseException.class})
+    public ErrorResponse handleDateTimeParseException(){
+        String mensagem = "Formato de data inválido. Padrão esperado: yyyy-MM-dd HH:mm:ss VV no fuso horário de America/Sao_Paulo";
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), mensagem);
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ClosedVoteException.class, DuplicateVoteException.class, IllegalArgumentException.class, InvalidCpfException.class, InvalidZoneIdException.class})
+    public ErrorResponse handleDuplicateVoteException(RuntimeException e) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({NumberFormatException.class})
+    public ErrorResponse handleNumberFormatException(RuntimeException e){
+        String mensagem = "Formato de id inválido. Use valores númericos sem caracteres especiais";
         return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), mensagem);
     }
 
@@ -39,19 +66,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NoDataFoundException.class})
     public ErrorResponse handleNoDataFoundException(NoDataFoundException e) {
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
-    }
-
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({DateTimeParseException.class})
-    public ErrorResponse handleDateTimeParseException(){
-        String mensagem = "Formato de data inválido. Padrão Esperado: yyyy-MM-dd HH:mm:ss VV";
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), mensagem);
-    }
-
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({DuplicateVoteException.class,IllegalArgumentException.class,ClosedVoteException.class})
-    public ErrorResponse handleDuplicateVoteException(RuntimeException e) {
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
 }

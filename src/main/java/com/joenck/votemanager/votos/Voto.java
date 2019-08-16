@@ -18,7 +18,7 @@ public class Voto {
     private Decisao decisao;
 
     @NotNull
-    private Long cpf;
+    private String cpf;
 
     @JoinColumn(name="pauta_id", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL)
@@ -27,7 +27,7 @@ public class Voto {
 
     public Voto() {}
 
-    public Voto(Pauta pauta, Long cpf, Decisao decisao) {
+    public Voto(Pauta pauta, String cpf, Decisao decisao) {
         this.pauta = pauta;
         this.cpf = cpf;
         this.decisao = decisao;
@@ -41,7 +41,7 @@ public class Voto {
         return pauta;
     }
 
-    public Long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
