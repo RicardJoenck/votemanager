@@ -43,8 +43,8 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ClosedVoteException.class, DuplicateVoteException.class, IllegalArgumentException.class, InvalidCpfException.class, InvalidZoneIdException.class})
-    public ErrorResponse handleDuplicateVoteException(RuntimeException e) {
+    @ExceptionHandler({ClosedVoteException.class, DuplicateVoteException.class, IllegalArgumentException.class, IllegalStateException.class, InvalidCpfException.class, InvalidZoneIdException.class})
+    public ErrorResponse handleBadRequestExceptions(RuntimeException e) {
         return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
@@ -68,4 +68,41 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 
+    public static class ErrorResponse {
+        private int status;
+        private String messagem;
+
+        public ErrorResponse()
+        {
+            super();
+        }
+        public ErrorResponse(int status, String messagem)
+        {
+            super();
+            this.status = status;
+            this.messagem = messagem;
+        }
+
+        public int getStatus()
+        {
+            return status;
+        }
+        public void setStatus(int status)
+        {
+            this.status = status;
+        }
+        public String getMessagem()
+        {
+            return messagem;
+        }
+        public void setMessagem(String messagem)
+        {
+            this.messagem = messagem;
+        }
+        @Override
+        public String toString()
+        {
+            return "ErrorResponse [status=" + status + ", message=" + messagem + "]";
+        }
+    }
 }

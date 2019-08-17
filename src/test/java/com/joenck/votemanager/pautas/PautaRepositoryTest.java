@@ -36,7 +36,7 @@ public class PautaRepositoryTest {
     }
 
     @Test
-    public void quandoFindById_entaoRetornePauta() throws NoDataFoundException {
+    public void quandoFindById_entaoRetornePauta() {
         Pauta pauta = pautaRepository.findById(1L).orElseThrow(() -> new NoDataFoundException(1L,Pauta.class.getSimpleName()));
         System.out.println(pauta.toString());
         assertThat(pauta.getDescricao()).isEqualTo("Votação teste 1");
