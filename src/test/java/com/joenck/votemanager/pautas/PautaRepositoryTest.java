@@ -54,7 +54,7 @@ public class PautaRepositoryTest {
         String className = Pauta.class.getSimpleName();
         assertThatExceptionOfType(NoDataFoundException.class).isThrownBy(() -> {
             Pauta pauta = pautaRepository.findById(999L).orElseThrow(() -> new NoDataFoundException(id,className));
-        }).withMessageContaining(String.format("Nenhum Dado achado com id %d para %s",id,className));
+        }).withMessageContaining(String.format("Nenhum dado encontrado com id %d para %s",id,className));
     }
 
     @Test
