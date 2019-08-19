@@ -86,23 +86,13 @@ Request
 
 |Método|URL                   |
 |:-----|:---------------------|
-|GET  |api/1/pauta/<pauta_id>/votos|
-
-Parâmetros
-
-|Tipo  |Param     |Valor |
-|:-----|:---------|:-----|
-|BODY  |descricao |string|
+|GET  |api/1/pautas/<pauta_id>/votos|
 
 Response
 
 |Status|Response                                                                       |
 |:-----|:------------------------------------------------------------------------------|
 |200   |Exemplo:<br> `{"SIM":2,"NÃO":"3"}`|
-|400   |`{"status": 400,"messagem": "Votação para pauta 1 não está aberta/disponível"}`|
-|400   |`{"status": 400,"messagem": "Já existe um voto do cpf 12345678 para pauta 1"}`|
-|400   |`{"status": 400,"messagem": "Associado 12345678 não está apto para votar"}`|
-|400   |`{"status": 400,"messagem": "Formato de parametros não reconhecido"}`|
 |404   |`{"status": 404,"messagem": "Nenhum dado achado com id 1 para Pauta"}`|
 
 ## Considerações
